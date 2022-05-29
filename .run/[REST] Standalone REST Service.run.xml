@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="[REST] Standalone REST Service" type="JetRunConfigurationType">
+    <option name="MAIN_CLASS_NAME" value="ru.gostev.rest.StandaloneMainKt" />
+    <module name="web-services-technologies-gostev.rest-service.bundles.standalone.main" />
+    <shortenClasspath name="NONE" />
+    <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+      <option name="credential" />
+      <option name="region" />
+      <option name="useCurrentConnection" value="false" />
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
