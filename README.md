@@ -80,7 +80,7 @@ Then go to JDBC Resources and open up `jdbc/__default`. Set Pool Name to `Person
 After JDBC Resource has been configured, build artifacts:
 
 ```shell
-git clone <repository_url> web-services-technologies-gostev
+git clone https://github.com/Pihanya/web-services-labs web-services-technologies-gostev
 cd web-services-technologies-gostev
 ./gradlew build
 
