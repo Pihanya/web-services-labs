@@ -37,4 +37,11 @@ subprojects {
                 .set(JavaLanguageVersion.of(javaVersion))
         }
     }
+
+    afterEvaluate {
+        dependencies {
+            "implementation"(libs.kotlin.stdlib)
+            "implementation"(libs.kotlin.stdlib.jdk8)
+        }
+    }
 }
