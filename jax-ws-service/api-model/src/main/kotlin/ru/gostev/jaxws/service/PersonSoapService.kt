@@ -15,6 +15,7 @@ interface PersonSoapService {
         @WebParam(name = "secondName") secondName: String,
         @WebParam(name = "birthPlace") birthPlace: String,
         @WebParam(name = "birthDate") birthDate: Date,
+        @WebParam(name = "authToken") authToken: String,
     ): PersonSoapDto
 
     @Throws(ServiceException::class)
@@ -41,11 +42,13 @@ interface PersonSoapService {
         @WebParam(name = "secondName") secondName: String,
         @WebParam(name = "birthPlace") birthPlace: String,
         @WebParam(name = "birthDate") birthDate: Date,
+        @WebParam(name = "authToken") authToken: String,
     ): PersonSoapDto
 
     @Throws(ServiceException::class)
     @WebMethod(operationName = "deleteById")
     fun deleteById(
         @WebParam(name = "id") id: Long,
+        @WebParam(name = "authToken") authToken: String,
     ): Boolean
 }

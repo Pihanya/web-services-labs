@@ -30,6 +30,7 @@ public interface PersonService {
      * 
      * @param arg3
      * @param arg2
+     * @param arg5
      * @param arg4
      * @param arg1
      * @param arg0
@@ -51,12 +52,15 @@ public interface PersonService {
         @WebParam(name = "arg3", targetNamespace = "")
         String arg3,
         @WebParam(name = "arg4", targetNamespace = "")
-        XMLGregorianCalendar arg4);
+        XMLGregorianCalendar arg4,
+        @WebParam(name = "arg5", targetNamespace = "")
+        String arg5);
 
     /**
      * 
      * @param arg3
      * @param arg2
+     * @param arg4
      * @param arg1
      * @param arg0
      * @return
@@ -75,7 +79,24 @@ public interface PersonService {
         @WebParam(name = "arg2", targetNamespace = "")
         String arg2,
         @WebParam(name = "arg3", targetNamespace = "")
-        XMLGregorianCalendar arg3);
+        XMLGregorianCalendar arg3,
+        @WebParam(name = "arg4", targetNamespace = "")
+        String arg4);
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns ru.gostev.jaxws.client.PersonSoapDto
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "findById", targetNamespace = "http://impl.service.jaxws.gostev.ru/", className = "ru.gostev.jaxws.client.FindById")
+    @ResponseWrapper(localName = "findByIdResponse", targetNamespace = "http://impl.service.jaxws.gostev.ru/", className = "ru.gostev.jaxws.client.FindByIdResponse")
+    @Action(input = "http://impl.service.jaxws.gostev.ru/PersonService/findByIdRequest", output = "http://impl.service.jaxws.gostev.ru/PersonService/findByIdResponse")
+    public PersonSoapDto findById(
+        @WebParam(name = "arg0", targetNamespace = "")
+        long arg0);
 
     /**
      * 
@@ -106,21 +127,7 @@ public interface PersonService {
 
     /**
      * 
-     * @param arg0
-     * @return
-     *     returns ru.gostev.jaxws.client.PersonSoapDto
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "findById", targetNamespace = "http://impl.service.jaxws.gostev.ru/", className = "ru.gostev.jaxws.client.FindById")
-    @ResponseWrapper(localName = "findByIdResponse", targetNamespace = "http://impl.service.jaxws.gostev.ru/", className = "ru.gostev.jaxws.client.FindByIdResponse")
-    @Action(input = "http://impl.service.jaxws.gostev.ru/PersonService/findByIdRequest", output = "http://impl.service.jaxws.gostev.ru/PersonService/findByIdResponse")
-    public PersonSoapDto findById(
-        @WebParam(name = "arg0", targetNamespace = "")
-        long arg0);
-
-    /**
-     * 
+     * @param arg1
      * @param arg0
      * @return
      *     returns boolean
@@ -132,6 +139,8 @@ public interface PersonService {
     @Action(input = "http://impl.service.jaxws.gostev.ru/PersonService/deleteByIdRequest", output = "http://impl.service.jaxws.gostev.ru/PersonService/deleteByIdResponse")
     public boolean deleteById(
         @WebParam(name = "arg0", targetNamespace = "")
-        long arg0);
+        long arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        String arg1);
 
 }

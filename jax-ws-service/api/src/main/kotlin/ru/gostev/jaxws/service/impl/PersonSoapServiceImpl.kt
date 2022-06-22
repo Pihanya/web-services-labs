@@ -28,7 +28,9 @@ class PersonSoapServiceImpl @Inject constructor(
         secondName: String,
         birthPlace: String,
         birthDate: Date,
+        authToken: String,
     ): PersonSoapDto = interceptServiceException {
+        checkAuth(authToken)
         personService.save(
             PersonSaveDto(
                 id = null,
@@ -68,7 +70,9 @@ class PersonSoapServiceImpl @Inject constructor(
         secondName: String,
         birthPlace: String,
         birthDate: Date,
+        authToken: String,
     ): PersonSoapDto = interceptServiceException {
+        checkAuth(authToken)
         personService.save(
             PersonSaveDto(
                 id = id,
@@ -80,7 +84,8 @@ class PersonSoapServiceImpl @Inject constructor(
         ).let(::toPersonSoapDto)
     }
 
-    override fun deleteById(id: Long): Boolean = interceptServiceException {
+    override fun deleteById(id: Long, authToken: String): Boolean = interceptServiceException {
+        checkAuth(authToken)
         personService.remove(id)
     }
 
@@ -107,4 +112,10 @@ class PersonSoapServiceImpl @Inject constructor(
             )
             throw SOAPFaultException(soapFault)
         }
+
+    private fun checkAuth(token: String) {
+        if (token != "Basic bG9naW46cGFzc3dvcmQ=") {
+            throw RuntimeException("Invalid login or password")
+        }
+    }
 }

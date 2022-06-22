@@ -8,6 +8,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import ru.gostev.core.ErrorCodes
 import ru.gostev.core.exception.ServiceException
+import ru.gostev.jaxws.cli.util.generateHardcodedAuthToken
 import ru.gostev.jaxws.cli.util.printError
 import ru.gostev.jaxws.cli.util.printUnknownError
 import ru.gostev.jaxws.cli.util.stringify
@@ -38,6 +39,7 @@ class CreateCommand constructor(
                 secondName = secondName,
                 birthPlace = birthPlace,
                 birthDate = birthDate.toDate(),
+                authToken = generateHardcodedAuthToken(),
             ).also { person -> println("Created person: ${person.stringify()}") }
         } catch (ex: ServiceException) {
             when (ex.code) {

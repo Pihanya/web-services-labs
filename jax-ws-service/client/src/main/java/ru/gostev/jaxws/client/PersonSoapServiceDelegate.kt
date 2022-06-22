@@ -19,12 +19,14 @@ class PersonSoapServiceDelegate(
         secondName: String,
         birthPlace: String,
         birthDate: Date,
+        authToken: String,
     ): ModelPersonSoapDto = interceptException {
         personService.create(
             firstName,
             secondName,
             birthPlace,
             birthDate.toGregorianCalendar(),
+            authToken,
         ).let(::toModelDto)
     }
 
@@ -54,6 +56,7 @@ class PersonSoapServiceDelegate(
         secondName: String,
         birthPlace: String,
         birthDate: Date,
+        authToken: String,
     ): ModelPersonSoapDto = interceptException {
         personService.update(
             id,
@@ -61,11 +64,12 @@ class PersonSoapServiceDelegate(
             secondName,
             birthPlace,
             birthDate.toGregorianCalendar(),
+            authToken,
         ).let(::toModelDto)
     }
 
-    override fun deleteById(id: Long): Boolean = interceptException {
-        personService.deleteById(id)
+    override fun deleteById(id: Long, authToken: String): Boolean = interceptException {
+        personService.deleteById(id, authToken)
     }
 
     private fun toModelDto(entity: JaxWsPersonSoapDto): ModelPersonSoapDto = ModelPersonSoapDto().apply {

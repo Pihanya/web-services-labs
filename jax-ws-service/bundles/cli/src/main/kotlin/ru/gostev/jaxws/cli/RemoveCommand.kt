@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.long
 import ru.gostev.core.ErrorCodes
 import ru.gostev.core.exception.ServiceException
+import ru.gostev.jaxws.cli.util.generateHardcodedAuthToken
 import ru.gostev.jaxws.cli.util.printUnknownError
 import ru.gostev.jaxws.service.PersonSoapService
 
@@ -17,7 +18,10 @@ class RemoveCommand constructor(
 
     override fun run() {
         val deleted: Boolean = try {
-            personSoapService.deleteById(id = id)
+            personSoapService.deleteById(
+                id = id,
+                authToken = generateHardcodedAuthToken(),
+            )
         } catch (ex: ServiceException) {
             when (ex.code) {
                 ErrorCodes.Persons001UnknownError -> printUnknownError()
