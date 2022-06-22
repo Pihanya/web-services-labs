@@ -8,6 +8,9 @@ import ru.gostev.jaxws.model.dto.PersonSoapDto
 
 interface PersonSoapService {
 
+    @WebMethod(operationName = "uploadBinaryData")
+    fun uploadBinaryData(content: ByteArray)
+
     @Throws(ServiceException::class)
     @WebMethod(operationName = "create")
     fun create(

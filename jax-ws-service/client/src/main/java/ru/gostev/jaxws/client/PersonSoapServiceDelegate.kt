@@ -14,6 +14,10 @@ class PersonSoapServiceDelegate(
     private val personService: PersonService,
 ) : PersonSoapService {
 
+    override fun uploadBinaryData(content: ByteArray) = interceptException {
+        personService.uploadBinaryData(content)
+    }
+
     override fun create(
         firstName: String,
         secondName: String,

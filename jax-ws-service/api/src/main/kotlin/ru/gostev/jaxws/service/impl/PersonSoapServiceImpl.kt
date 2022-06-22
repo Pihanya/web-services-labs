@@ -23,6 +23,10 @@ class PersonSoapServiceImpl @Inject constructor(
     private val personService: PersonService,
 ) : PersonSoapService {
 
+    override fun uploadBinaryData(content: ByteArray) {
+        println(content)
+    }
+
     override fun create(
         firstName: String,
         secondName: String,
