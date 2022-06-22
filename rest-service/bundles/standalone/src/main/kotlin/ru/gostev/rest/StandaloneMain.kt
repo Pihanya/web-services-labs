@@ -11,6 +11,7 @@ import ru.gostev.core.dao.PersonDao
 import ru.gostev.core.dao.impl.StandalonePersonDao
 import ru.gostev.core.service.PersonService
 import ru.gostev.core.service.impl.PersonServiceImpl
+import ru.gostev.rest.plugin.configureAuth
 import ru.gostev.rest.plugin.configureHttp
 import ru.gostev.rest.plugin.configureMonitoring
 import ru.gostev.rest.plugin.configureRouting
@@ -26,6 +27,7 @@ fun main() {
     val personService: PersonService = PersonServiceImpl(personDao)
 
     embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
+        configureAuth()
         configureRouting(personService)
         configureSerialization()
         configureMonitoring()

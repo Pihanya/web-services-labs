@@ -3,6 +3,7 @@ package ru.gostev.rest.api
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.ApplicationCall
 import io.ktor.server.application.call
+import io.ktor.server.auth.authenticate
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
@@ -37,17 +38,19 @@ fun Route.personRoutes(personService: PersonService) {
 
     route("/persons") {
 
-        post {
-            runService {
-                val request = call.receive<PersonCreationRequest>()
-                personService.save(
-                    PersonSaveDto(
-                        firstName = request.firstName,
-                        secondName = request.secondName,
-                        birthPlace = request.birthPlace,
-                        birthDate = request.birthDate.toJavaLocalDate(),
-                    )
-                ).let(::toApiPerson)
+        authenticate("auth-basic") {
+            post {
+                runService {
+                    val request = call.receive<PersonCreationRequest>()
+                    personService.save(
+                        PersonSaveDto(
+                            firstName = request.firstName,
+                            secondName = request.secondName,
+                            birthPlace = request.birthPlace,
+                            birthDate = request.birthDate.toJavaLocalDate(),
+                        )
+                    ).let(::toApiPerson)
+                }
             }
         }
 
@@ -86,43 +89,47 @@ fun Route.personRoutes(personService: PersonService) {
             )
         }
 
-        put("{id?}") {
-            runService {
-                val id = call.parameters["id"]?.toLong() ?: return@put call.respondText(
-                    "Missing id",
-                    status = HttpStatusCode.BadRequest
-                )
-                val request = call.receive<PersonUpdateRequest>()
-
-                personService.save(
-                    PersonSaveDto(
-                        id = id,
-                        firstName = request.firstName,
-                        secondName = request.secondName,
-                        birthPlace = request.birthPlace,
-                        birthDate = request.birthDate.toJavaLocalDate(),
-                    )
-                ).let(::toApiPerson)
-            }
-        }
-
-        delete("{id?}") {
-            callService(
-                fn = {
-                    val id = call.parameters["id"]?.toLong() ?: return@delete call.respondText(
+        authenticate("auth-basic") {
+            put("{id?}") {
+                runService {
+                    val id = call.parameters["id"]?.toLong() ?: return@put call.respondText(
                         "Missing id",
                         status = HttpStatusCode.BadRequest
                     )
-                    personService.remove(id)
-                },
-                callback = { removed ->
-                    if (removed) {
-                        call.respond(HttpStatusCode.OK)
-                    } else {
-                        call.respond(HttpStatusCode.NotFound)
-                    }
+                    val request = call.receive<PersonUpdateRequest>()
+
+                    personService.save(
+                        PersonSaveDto(
+                            id = id,
+                            firstName = request.firstName,
+                            secondName = request.secondName,
+                            birthPlace = request.birthPlace,
+                            birthDate = request.birthDate.toJavaLocalDate(),
+                        )
+                    ).let(::toApiPerson)
                 }
-            )
+            }
+        }
+
+        authenticate("auth-basic") {
+            delete("{id?}") {
+                callService(
+                    fn = {
+                        val id = call.parameters["id"]?.toLong() ?: return@delete call.respondText(
+                            "Missing id",
+                            status = HttpStatusCode.BadRequest
+                        )
+                        personService.remove(id)
+                    },
+                    callback = { removed ->
+                        if (removed) {
+                            call.respond(HttpStatusCode.OK)
+                        } else {
+                            call.respond(HttpStatusCode.NotFound)
+                        }
+                    }
+                )
+            }
         }
     }
 }

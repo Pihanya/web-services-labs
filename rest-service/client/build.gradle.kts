@@ -6,6 +6,7 @@ plugins {
 dependencies {
     api(projects.restService.apiModel)
     implementation(libs.ktor.client.contentNegotiation)
+    implementation(libs.ktor.client.auth)
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.core)

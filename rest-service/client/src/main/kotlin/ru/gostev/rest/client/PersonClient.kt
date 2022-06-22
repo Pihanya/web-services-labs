@@ -5,6 +5,9 @@ import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.Charsets
 import io.ktor.client.plugins.HttpResponseValidator
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BasicAuthCredentials
+import io.ktor.client.plugins.auth.providers.basic
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.DEFAULT
@@ -50,6 +53,16 @@ private suspend fun HttpResponse.getErrorResponseOrNull(): ErrorResponse? =
 class PersonClient {
 
     private val client: HttpClient = HttpClient(CIO) {
+        install(Auth) {
+            basic {
+                credentials {
+                    BasicAuthCredentials(
+                        username = "login",
+                        password = "password",
+                    )
+                }
+            }
+        }
         defaultRequest {
             with(url) {
                 protocol = URLProtocol.HTTP
